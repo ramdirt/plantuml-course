@@ -1,6 +1,6 @@
 @startuml Стратовая диаграмма
 
-!include ../settings.puml
+!include /common/settings.puml
 
 
 Client -> Frontend : Выбрал предложение
