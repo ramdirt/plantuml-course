@@ -1,4 +1,4 @@
-@startuml Стратовая диаграмма
+@startuml Оценка рисков
 
 !include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
 
@@ -11,7 +11,7 @@ Backend --> Scoring : EVENT scoringStart
 Scoring -> Scoring : Оценка рисков
 Scoring --> Backend : EVENT scoringFinish
 Backend -> Backend : Сохранение результата
-Frontend --> Backend : GET /application
+Frontend --> Backend : GET /application/{id}
 return 200
 Frontend -> Client : Отображение результата
 
