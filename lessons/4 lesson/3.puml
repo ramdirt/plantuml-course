@@ -7,16 +7,26 @@ title Оценка рисков
 == Оценка рисков ==
 
 Client -> Frontend : Выбрал предложение
-Frontend --> Backend : POST /application
-return 200
-Backend --> Backend : Создание заявки
+Frontend -> Backend : POST /application
+Backend -> Backend : Создание заявки
+alt Заявка создана
+    Backend --> Frontend : 200
+else Ошибка сервера
+    Backend --> Frontend : 500
+    Frontend --> Client : Ошибка: Повторите попытку позже
+end
 Backend --> Scoring : EVENT scoringStart
 Scoring -> Scoring : Оценка рисков
 Scoring --> Backend : EVENT scoringFinish
 Backend -> Backend : Сохранение результата
-Frontend --> Backend : GET /application/{id}
-return 200
-Frontend -> Client : Отображение результата
-
+alt Если заявка создана
+    Frontend -> Backend : GET /application/{id}
+    alt Данные получены
+        Backend --> Frontend : 200
+    else Ошибка сервера
+        Backend --> Frontend : 500
+    end
+    Frontend -> Client : Отображение результата
+end
 
 @enduml
