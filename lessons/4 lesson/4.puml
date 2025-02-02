@@ -1,0 +1,45 @@
+@startuml Оценка рисков
+
+title Оценка рисков
+
+!include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
+
+== Оценка рисков ==
+
+Client -> Frontend : Выбрал предложение
+Frontend -> Backend : POST /application
+Backend -> Backend : Создание заявки
+opt Если шаг заявки "Created"
+    alt Заявка создана
+        Backend --> Frontend : 200
+    else Ошибка сервера
+        Backend --> Frontend : 500
+        Frontend --> Client : Ошибка: Повторите попытку позже
+        note over Frontend : Процесс оформления завершен
+    end
+    Backend --> Scoring : EVENT scoringStart
+    Backend -> Backend : Изминить шаг \nзаявки на "Scoring"
+end
+
+opt Если шаг заявки "Scoring"
+    Scoring -> Scoring : Оценка рисков
+    Scoring --> Backend : EVENT scoringFinish
+    Backend -> Backend : Сохранение результата
+    alt Если результат положительный
+        Backend -> Backend : Изминить шаг \nзаявки на "Identification"
+    else Иначе
+        Backend -> Backend : Изминить шаг \nзаявки на "Closed"
+        note over Frontend, Backend : Процесс оформления завершен
+    end
+end
+opt Если шаг заявки "Created" или "Scoring"
+    Frontend -> Backend : GET /application/{id}
+    alt Данные получены
+        Backend --> Frontend : 200
+    else Ошибка сервера
+        Backend --> Frontend : 500
+    end
+    Frontend -> Client : Отображение результата
+end
+
+@enduml
