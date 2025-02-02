@@ -2,7 +2,7 @@
 
 title "Актуализация интерфейса"
 
-!include /settings.puml
+!include /common/settings.puml
 
 
 opt Актуализация интерфейса
