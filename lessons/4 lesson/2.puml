@@ -2,7 +2,13 @@
 
 title Оценка рисков
 
-!include ../settings.puml
+!$file = "/common/settings.puml"
+!if(%file_exists("/common/settings.puml"))
+    !include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
+!else
+    !include /common/settings.puml
+!endif
+
 
 == Оценка рисков ==
 
