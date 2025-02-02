@@ -16,6 +16,7 @@ participant "Биллинг" as Billing
 !procedure hide_unlinked()
     !if (%filename() != settings.puml)
         hide unlinked
+    !endif
 !endprocedure
 hide_unlinked()
 

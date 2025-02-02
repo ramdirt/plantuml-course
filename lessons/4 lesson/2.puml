@@ -2,17 +2,20 @@
 
 title Оценка рисков
 
-!$file = "/common/settings.puml"
-!if(%file_exists("/common/settings.puml"))
-    !include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
-!else
+
+'Проверка что код находится локально
+!$check = %file_exists("C:")
+
+!if ($check == 1)
     !include /common/settings.puml
+!else
+    !include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
 !endif
 
 
 == Оценка рисков ==
 
-Client -> Frontend : Выбрал предложение
+Client -> Frontend : Выбрал предложение $check
 Frontend --> Backend : POST /application
 return 200
 Backend --> Backend : Создание заявки
