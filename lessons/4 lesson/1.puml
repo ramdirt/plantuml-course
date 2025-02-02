@@ -1,6 +1,6 @@
 @startuml Стратовая диаграмма
 
-!include /common/settings.puml
+!include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
 
 
 Client -> Frontend : Выбрал предложение
