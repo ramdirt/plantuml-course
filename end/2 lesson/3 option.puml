@@ -1,0 +1,15 @@
+@startuml 3 пример
+
+
+
+
+'__ АКТОРЫ __
+actor "Пользователь" as User
+participant "Ядро" as Core
+
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+User -> Core: Синхронное взаимодействие
+
+
+@enduml

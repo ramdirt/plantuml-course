@@ -1,0 +1,49 @@
+@startuml Пример с плохим оформлением кода
+
+title Пример с плохим оформлением кода
+
+opt Актуализация интерфейса
+    loop
+        Frontend -> Backend: GET application/{id}
+        Backend -> Frontend: 200 {stage: {Шаг заявки}}
+
+        alt Есть активный кредит
+            Frontend -> Client: Показать страницу "UI_9: Активный кредит"
+        else Нет активного кредита
+            alt #Azure Есть активная заявка
+
+                alt $color("Green") Шаг заявки "Created" ?
+                    Frontend -> Client: Показывать старницу "UI_2: Создание заявки на кредит"
+                else Шаг заявки "Scoring" ?
+                    Frontend -> Client: Показывать старницу "UI_3: Ожидание решения"
+                else Шаг заявки "Identification" ?
+                    Frontend -> Client: Показывать страницу "UC_4: Подтверждение личности"
+                else Шаг заявки "Document" ?
+                    Frontend -> Client: Показать страницу "UC_5: Подписание документов"
+                else Шаг заявки "Transfer_Money" ?
+                    Frontend -> Client: Показать страницу "UC_6: Перевод денежных стредств"
+                else #PHYSICAL Шаг заявки "Issued"
+                    Frontend -> Client: Показать страницу "UI_7": Заявка успешно оформлена"
+                else #IMPLEMENTATION Шаг заявки "Closed"
+                    Frontend -> Client: Показать страницу "UI_8": Завка закрыта"
+                end
+
+            else Нет активной заявки
+                Frontend -> Client: Показать страницу "UI_1: Главная"
+            end
+
+        end
+    end
+end
+
+'хороший пример
+Frontend -> Client : Показать страницу "UI_1: Главная"
+
+'плохой пример
+Frontend->Client:Показать страницу "UI_1: Главная"
+
+
+
+
+
+@enduml

@@ -1,0 +1,30 @@
+@startuml Первый пример
+
+title Первый пример
+
+<style>
+document {
+  Margin 50
+}
+</style>
+
+skinparam ParticipantPadding 50
+
+
+
+'__ АКТОРЫ __
+participant "Сервис 1" as Service_1
+participant "Сервис 2" as Service_2
+
+||50||
+
+Service_1 -> Service_2: POST /user
+Service_2 -> Service_2: Создание \nпользователя
+Service_2 --> Service_1: 200
+
+||50||
+
+
+
+
+@enduml

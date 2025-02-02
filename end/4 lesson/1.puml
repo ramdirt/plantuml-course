@@ -1,0 +1,20 @@
+@startuml Стратовая диаграмма
+
+!include ../settings.puml
+
+
+Client -> Frontend : Выбрал предложение
+Frontend --> Backend : POST /application
+return 200
+Backend --> Backend : Создание заявки
+Backend --> Scoring : EVENT scoringStart
+Scoring -> Scoring : Оценка рисков
+Scoring --> Backend : EVENT scoringFinish
+Backend -> Backend : Сохранение результата
+Frontend --> Backend : GET /application
+return 200
+Frontend -> Client : Отображение результата
+
+
+
+@enduml

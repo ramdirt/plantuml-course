@@ -1,0 +1,25 @@
+@startuml Участник, дорожка, взаимодействие
+
+title Участник, дорожка, взаимодействие
+
+<style>
+document {
+  Margin 50
+}
+</style>
+
+skinparam ParticipantPadding 100
+
+'__ АКТОРЫ __
+actor "Пользователь" as User
+participant "Система" as System
+
+||50||
+
+User -> System: Взаимодействие
+
+||50||
+
+
+
+@enduml

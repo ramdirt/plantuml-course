@@ -1,0 +1,76 @@
+@startuml Настройки 
+
+'__ АКТОРЫ __
+actor "Клиент" as Client
+participant "Фронтенд" as Frontend
+participant "Бэкэнд" as Backend
+participant "Скоринг" as Scoring
+participant "Документы" as Document
+participant "Платежный шлюз" as PaySystem
+participant "Биллинг" as Billing
+
+'__ НАСТРОЙКИ РЭНДЕРИНГА __
+
+'Скрытие дорожек которые не связаны
+'Функция написана чтобы не выводить ошибку в файле настроек
+!procedure hide_unlinked()
+    !if (%filename() != settings.puml)
+        hide unlinked
+!endprocedure
+hide_unlinked()
+
+autonumber
+
+'__ ПОЛЬЗОВАТЕЛЬСКИЕ ПРОЦЕДУРЫ __
+
+!procedure error_backend($cod_error, $view_mode = "short")
+    !if ($view_mode == "short")
+        ||5||
+        ref over Client, Frontend, Backend: Завершение процесса: Код ошибки $cod_error
+    !else
+        ||5||
+        ref over Client, Frontend, Backend: Завершение полное процесса: Код ошибки $cod_error
+    !endif
+
+!endprocedure
+
+!procedure error_frontend($text, $view_mode = "short")
+
+    !if ($view_mode == "short")
+        ||5||
+        ref over Client, Frontend: Сообщение об ошибке: <b>$text</b>    
+    !else
+        Frontend -> Client: Сообщение об ошибке: <b>$text</b>
+    !endif
+
+!endprocedure
+
+
+!procedure interface_update($view_mode = "short")
+    !if ($view_mode == "short")
+        ref over Client, Frontend, Backend: Актуализация интерфейса    
+    !else
+        !include /interface_update.puml
+    !endif
+!endprocedure
+
+
+
+' Функция добавления цвета
+' Документация по цветам: https://plantuml.com/ru/color
+' !Аналогичная функция через процедуру работает через раз
+!function $color($color = "White")
+
+    !if ($color == "green")
+        !return "#PHYSICAL"
+    !elseif ($color == "white")
+        !return "#WHITE"
+    !elseif ($color == "grey")
+        !return "#WhiteSmoke"
+    !else
+        !return "#WHITE"
+    !endif
+
+!endfunction
+
+@enduml

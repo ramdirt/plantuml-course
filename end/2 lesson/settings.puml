@@ -1,0 +1,7 @@
+@startuml Настройки 
+
+actor "Клиент" as Client
+participant "Фронтенд" as Frontend
+participant "Бэкэнд" as Backend
+
+@enduml

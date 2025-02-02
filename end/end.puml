@@ -1,0 +1,106 @@
+@startuml Стратовая диаграмма
+
+!include /settings.puml
+
+'параметры рендеринга диаграммы
+'режим отображения : short - короткий, long - подробный
+!$view_mode = "short"
+
+
+== Авторизация ==
+ref over Client, Frontend, Backend : Авторизация в личном кабинете
+interface_update($view_mode)
+
+== Выбор предложения ==
+
+opt Нет активной заявки
+
+    Client -> Frontend : Выбирает предложение
+    group $color("grey") Валидация предложения
+        Frontend -> Frontend : Валидация предложения
+        
+        alt $color("white") Валидация пройдена
+            Frontend -> Backend : POST application/create
+        else Иначе
+            error_frontend("Выбирите другое значение")
+        end
+
+    end
+
+    group Валидация запроса
+        Backend -> Backend : Валидация запроса
+
+        alt $color("grey") Запрос валидный
+            Backend -> Backend : Создание заявки
+            Backend -> Frontend : 200
+        else В запросе ошибка
+            error_backend(400, $view_mode)
+        else Ошибка сервера
+            error_backend(500, $view_mode)
+        end
+
+
+        interface_update($view_mode)
+
+    end
+
+
+end
+
+== Оценка рисков ==
+
+opt Если шаг заявки "Created"
+    Backend --> Scoring : EVENT scoringStart
+    Backend -> Backend : Изменить шаг заявки на "Scoring"
+
+    ref over Client, Frontend, Backend : Актуализация интерфейса
+end
+
+opt Если шаг заявки "Scoring"
+    Scoring --> Backend : Результат оценки рисков по клиенту
+
+    alt Оценка скоринга >= 500 ?
+        Backend -> Backend : Изменить шаг заявки на "Identification"
+    else Иначе
+        break
+            Backend -> Backend : Изменить шаг заявки на "Closed"
+        end
+    end
+    ref over Client, Frontend, Backend : Актуализация интерфейса
+
+end
+
+== Идентификация ==
+
+== Подписание документов ==
+
+
+== Перевод денежных средств ==
+
+
+== Создание кредита ==
+
+newpage
+
+opt Актуализация интерфейса
+    loop
+        Frontend -> Backend : GET application/{id}
+        Backend -> Frontend : 200 {state : {шаг заявки}}
+        alt шаг заявки "ScoringStart" ?
+            Frontend -> Client : Показывать старницу "Ожидание решения"
+        else шаг заявки "IdentificationStart" ?
+            == Идентификация ==
+            Frontend -> Client : Показывать страницу "Подтверждение личности"
+        end
+    end
+end
+
+
+
+
+
+
+
+
+
+@enduml

@@ -1,0 +1,8 @@
+@startuml Включение файла настреок
+
+!include /settings.puml
+
+Client -> Frontend: Синхронное взаимодействие
+Frontend -> Backend: Синхронное взаимодействие
+
+@enduml

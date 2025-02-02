@@ -1,0 +1,12 @@
+@startuml Мой пример
+
+'__ АКТОРЫ __
+actor "Пользователь" as User
+participant "Система" as System
+
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+User -> System: Синхронное взаимодействие
+
+
+@enduml

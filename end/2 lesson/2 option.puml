@@ -1,0 +1,12 @@
+@startuml 2 пример
+
+'__ АКТОРЫ __
+actor "Клиент" as Client
+participant "Монолит" as Monolith
+
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+Client -> Monolith: Синхронное взаимодействие
+
+
+@enduml
