@@ -9,7 +9,7 @@ title Оценка рисков
 !if ($check == 1)
     !include /common/settings.puml
 !else
-    !include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
+    https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
 !endif
 
 
