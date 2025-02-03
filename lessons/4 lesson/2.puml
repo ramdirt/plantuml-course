@@ -2,9 +2,10 @@
 
 title Оценка рисков
 
+
 !include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
 
-== Оценка рисков ==
+== Оценка рисков == 
 
 Client -> Frontend : Выбрал предложение
 Frontend -> Backend : POST /application

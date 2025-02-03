@@ -9,7 +9,7 @@ title Оценка рисков
 Client -> Frontend : Выбрал предложение
 Frontend -> Backend : POST /application
 Backend -> Backend : Создание заявки
-alt Заявка создана
+alt #PHYSICAL Заявка создана
     Backend --> Frontend : 200
 else Ошибка сервера
     Backend --> Frontend : 500
@@ -19,7 +19,7 @@ Backend --> Scoring : EVENT scoringStart
 Scoring -> Scoring : Оценка рисков
 Scoring --> Backend : EVENT scoringFinish
 Backend -> Backend : Сохранение результата
-alt Если заявка создана
+alt #PHYSICAL Если заявка создана
     Frontend -> Backend : GET /application/{id}
     alt Данные получены
         Backend --> Frontend : 200

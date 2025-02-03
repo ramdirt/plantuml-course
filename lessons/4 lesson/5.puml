@@ -9,7 +9,7 @@ title Оценка рисков
 Client -> Frontend : Выбрал предложение
 Frontend -> Backend : POST /application
 Backend -> Backend : Создание заявки
-opt #PHYSICAL Если шаг заявки "Created"
+opt Если шаг заявки "Created"
     alt Заявка создана
         Backend --> Frontend : 200
     else Ошибка сервера
@@ -21,7 +21,7 @@ opt #PHYSICAL Если шаг заявки "Created"
     Backend -> Backend : Изминить шаг \nзаявки на "Scoring"
 end
 
-opt #PHYSICAL Если шаг заявки "Scoring"
+opt Если шаг заявки "Scoring"
     Scoring -> Scoring : Оценка рисков
     Scoring --> Backend : EVENT scoringFinish
     Backend -> Backend : Сохранение результата
@@ -34,13 +34,15 @@ opt #PHYSICAL Если шаг заявки "Scoring"
 end
 
 opt Если шаг заявки "Created" или "Scoring"
-    Frontend -> Backend : GET /application/{id}
-    alt Данные получены
-        Backend --> Frontend : 200
-    else Ошибка сервера
-        Backend --> Frontend : 500
+    loop #PHYSICAL Каждые 3 секунды
+        Frontend -> Backend : GET /application/{id}
+        alt Данные получены
+            Backend --> Frontend : 200
+            Frontend -> Client : Отображение результата
+        else Ошибка сервера
+            Backend --> Frontend : 500
+        end
     end
-    Frontend -> Client : Отображение результата
 end
 
 @enduml
