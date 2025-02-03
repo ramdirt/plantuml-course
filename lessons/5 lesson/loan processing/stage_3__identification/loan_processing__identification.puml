@@ -1,0 +1,15 @@
+@startuml Процесс оформления кредита | Идентификация
+
+title Идентификация
+
+'__ НАСТРОЙКИ __
+!include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
+
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+== Идентификация ==
+Client -> Frontend : Взаимодействие
+Frontend -> Backend : Взаимодействие
+
+
+@enduml

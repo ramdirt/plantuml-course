@@ -1,0 +1,15 @@
+@startuml Процесс оформления кредита | Авторизация
+
+title Авторизация
+
+'__ НАСТРОЙКИ __
+!include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
+
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+== Авторизация ==
+Client -> Frontend : Взаимодействие
+Frontend -> Backend : Взаимодействие
+
+
+@enduml

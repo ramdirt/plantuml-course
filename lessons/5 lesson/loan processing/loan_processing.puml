@@ -1,0 +1,17 @@
+@startuml Процесс оформления кредита
+
+title Процесс оформления кредита
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+'__ Авторизация клиента __
+!include /stage_1__sign in/loan_processing__sign_in.puml
+
+'__ Скоринг клиента __
+!include /stage_2__scoring/loan_processing__scoring.puml
+
+'__ Идентификация __
+!include /stage_3__identification/loan_processing__identification.puml
+
+
+
+@enduml

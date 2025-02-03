@@ -1,0 +1,15 @@
+@startuml Процесс оформления кредита | Оценка рисков
+
+title Оценка рисков
+
+'__ НАСТРОЙКИ __
+!include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
+
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+== Оценка рисков ==
+Client -> Frontend : Взаимодействие
+Frontend -> Backend : Взаимодействие
+
+
+@enduml
