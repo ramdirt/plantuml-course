@@ -11,16 +11,15 @@ end box
 
 '__ ВЗАИМОДЕЙСТВИЕ __
 == Проверка наличия клиента==
-External_Сompany -> API : GET /clients/{client_phone}
-alt Клиент не существует
-    API --> External_Сompany : 404
-    ref over External_Сompany, API : Создание клиента
-else Клиент существует
-    API --> External_Сompany : 200
+External_Сompany -> API : GET /check_client/{client_phone}
+alt Клиент существует
+    API --> External_Сompany : 200 Без тела
     ||7||
     ref over External_Сompany, API : Создание заявки на кредит
+else Клиента не существует
+    API --> External_Сompany : 404 Без тела
+    ref over External_Сompany, API : Создание клиента
 end
-
 
 
 @enduml
