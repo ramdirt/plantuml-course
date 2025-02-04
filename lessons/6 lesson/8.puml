@@ -1,28 +1,22 @@
 @startuml Широкая диаграмма
 
-title Убираем БД
+title Убираем клиента
 
 '__ АКТОРЫ __
-actor "Клиент" as Client
 participant "Фронтэнд" as Frontend
-participant "API Gateway" as API_Gateway
 participant "Сервис клиентов" as Service_Clients
-queue "Кафка" as Kafka
 participant "Сервис Документов" as Service_Documents
 
 '__ ВЗАИМОДЕЙСТВИЕ __
 == Создание клиента ==
-Client -> Frontend : Регистрация
-Frontend -> API_Gateway : POST /users
-API_Gateway -> API_Gateway : Авторизация запроса
-API_Gateway -> Service_Clients: POST /users
+-> Frontend : Клиент отправляет \nформу регистрации
+Frontend -> Service_Clients: POST /users
 Service_Clients-> Service_Clients : <b>Создание клиента</b> \nв таблице clients
 Service_Clients --> Frontend : 200 Клиент создан
 Frontend -> Frontend : Переход на страницу \nпросмотра документов 
 
 == Генерация документов ==
-Service_Clients-> Kafka : PUSH EVENT DocumentsGenerate
-Service_Documents -> Kafka : PULL EVENT DocumentsGenerate
+Service_Clients --> Service_Documents: EVENT DocumentsGenerate
 Service_Documents -> Service_Documents : Генерация документов
 Service_Documents -> Service_Documents : Сохранение документов на S3
 Service_Documents -> Service_Documents : Сохранение документов \nв таблице documents
@@ -31,17 +25,15 @@ Service_Documents -> Service_Documents : Сохранение документо
 == Получение документов ==
 opt Если клиент зарегестрирован
     loop Каждые 3 секунды
-        Frontend -> API_Gateway : GET /users/{user_id}/documents
-        API_Gateway -> API_Gateway : Авторизация запроса
-        API_Gateway -> Service_Documents : GET /users/{user_id}/documents
+        Frontend -> Service_Documents : GET /users/{user_id}/documents
         Service_Documents -> Service_Documents : Получение документов из таблицы documents
         alt Документы существуют
             Service_Documents -> Service_Documents : Получение предподписанных \nссылок на S3
             Service_Documents --> Frontend : 200
-            Frontend --> Client : Документы для подписи
+            <-- Frontend : Отображение документов клиенту
         else Документов нет
             Service_Documents --> Frontend : 404
-            Frontend --> Client : Ожидайте, документы генерируются
+            <-- Frontend : Отображение экрана ожидания клиенту
         end
     end
 end
