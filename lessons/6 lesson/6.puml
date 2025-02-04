@@ -17,7 +17,7 @@ Client -> Frontend : Регистрация
 Frontend -> API_Gateway : POST /users
 API_Gateway -> API_Gateway : Авторизация запроса
 API_Gateway -> Service_Clients: POST /users
-Service_Clients-> Service_Clients : Создание клиента \nв таблице clients
+Service_Clients-> Service_Clients : <b>Создание клиента</b> \nв таблице clients
 Service_Clients --> Frontend : 200 Клиент создан
 Frontend -> Frontend : Переход на страницу \nпросмотра документов 
 
