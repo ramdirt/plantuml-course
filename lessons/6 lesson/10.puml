@@ -11,11 +11,12 @@ end box
 
 '__ ВЗАИМОДЕЙСТВИЕ __
 == Проверка наличия клиента==
-External_Сompany -> API : GET /client/{client_phone}
+External_Сompany -> API : GET /clients/{client_phone}
 alt Клиент не существует
-    ||7||
+    API --> External_Сompany : 404
     ref over External_Сompany, API : Создание клиента
 else Клиент существует
+    API --> External_Сompany : 200
     ||7||
     ref over External_Сompany, API : Создание заявки на кредит
 end
