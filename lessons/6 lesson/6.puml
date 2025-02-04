@@ -3,12 +3,50 @@
 title Подробное описание
 
 '__ АКТОРЫ __
+actor "Клиент" as Client
 participant "Фронтэнд" as Frontend
-participant "Бэкэнд" as Backend
+participant "API Gateway" as API_Gateway
+participant "Сервис клиентов" as Service_Clients
+queue "Кафка" as Kafka
+participant "Сервис Документов" as Service_Documents
+database "Общий S3" as S3
 
 '__ ВЗАИМОДЕЙСТВИЕ __
--> Frontend : Регистрация \nклиента
-Frontend -> Backend : POST /users
-Backend -> Backend : Сохранение \nв таблице users
+== Создание клиента ==
+Client -> Frontend : Регистрация
+Frontend -> API_Gateway : POST /users
+API_Gateway -> API_Gateway : Авторизация запроса
+API_Gateway -> Service_Clients: POST /users
+Service_Clients-> Service_Clients : Создание клиента \nв таблице clients
+Service_Clients --> Frontend : 200 Клиент создан
+Frontend -> Frontend : Переход на страницу \nпросмотра документов 
+
+== Генерация документов ==
+Service_Clients-> Kafka : PUSH EVENT DocumentsGenerate
+Service_Documents -> Kafka : PULL EVENT DocumentsGenerate
+Service_Documents -> Service_Documents : Генерация документов
+Service_Documents -> S3 : Сохранение документов
+return Сохранено
+Service_Documents -> Service_Documents : Сохранение документов \nв таблице documents
+
+
+== Получение документов ==
+opt Если клиент зарегестрирован
+    loop Каждые 3 секунды
+        Frontend -> API_Gateway : GET /users/{user_id}/documents
+        API_Gateway -> API_Gateway : Авторизация запроса
+        API_Gateway -> Service_Documents : GET /users/{user_id}/documents
+        Service_Documents -> Service_Documents : Получение документов из таблицы documents
+        alt Документы существуют
+            Service_Documents -> S3 : Запрос предподписанных \nссылок на документы
+            S3 --> Service_Documents : Предподписанные ссылки
+            Service_Documents --> Frontend : 200
+            Frontend --> Client : Документы для подписи
+        else Документов нет
+            Service_Documents --> Frontend : 404
+            Frontend --> Client : Ожидайте, документы генерируются
+        end
+    end
+end
 
 @enduml

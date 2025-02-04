@@ -20,12 +20,13 @@ database "Общий S3" as S3
 '__ ВЗАИМОДЕЙСТВИЕ __
 == Создание клиента ==
 Client -> Frontend : Регистрация
-Frontend -> API_Gateway : POST /users
+Frontend -> API_Gateway : POST /clients
 API_Gateway -> API_Gateway : Авторизация запроса
-API_Gateway -> Service_Clients: POST /users
-Service_Clients-> DB_Clients : INSERT users
-DB_Clients --> Service_Clients: Сохранено
-Service_Clients-> 
+API_Gateway -> Service_Clients: POST /clients
+Service_Clients-> DB_Clients : INSERT clients
+DB_Clients --> Service_Clients : Сохранено
+Service_Clients --> Frontend : 200 Клиент создан
+Frontend -> Frontend : Переход на страницу \nпросмотра документов 
 
 == Генерация документов ==
 Service_Clients-> Kafka : PUSH EVENT DocumentsGenerate
