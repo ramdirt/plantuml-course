@@ -15,7 +15,7 @@ box "Сервис документов"
     participant "Сервис Документов" as Service_Documents
     database "БД" as DB_Documents
 end box
-participant
+database "Общий S3" as S3
 
 '__ ВЗАИМОДЕЙСТВИЕ __
 == Создание клиента ==
@@ -31,12 +31,11 @@ Service_Clients->
 Service_Clients-> Kafka : PUSH EVENT DocumentsGenerate
 Service_Documents -> Kafka : PULL EVENT DocumentsGenerate
 Service_Documents -> Service_Documents : Генерация документов
+Service_Documents -> S3 : Сохранение документов
+return Сохранено
 Service_Documents -> DB_Documents : INSERT documents
-DB_Documents -> Service_Documents : Сохранено
-Service_Documents -> Kafka : PUSH EVENT DocumentsGenerated
-Service_Clients -> Kafka : PULL EVENT DocumentsGenerated
-Service_Clients -> DB_Clients : UPDATE users
-DB_Clients --> Service_Clients : Сохранено
+return Сохранено
+
 
 == Получение документов ==
 opt Если клиент зарегестрирован
@@ -44,10 +43,15 @@ opt Если клиент зарегестрирован
         Frontend -> API_Gateway : GET /users/{user_id}/documents
         API_Gateway -> API_Gateway : Авторизация запроса
         API_Gateway -> Service_Documents : GET /users/{user_id}/documents
-        alt Документы получены
+        Service_Documents -> DB_Documents : SELECT documents
+        alt Документы существуют
+            DB_Documents --> Service_Documents : Список записей
+            Service_Documents -> S3 : Запрос предподписанных \nссылок на документы
+            S3 --> Service_Documents : Предподписанные ссылки
             Service_Documents --> Frontend : 200
             Frontend --> Client : Документы для подписи
         else Документов нет
+            DB_Documents --> Service_Documents : Нет записей
             Service_Documents --> Frontend : 404
             Frontend --> Client : Ожидайте, документы генерируются
         end
