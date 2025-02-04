@@ -1,0 +1,20 @@
+@startuml Широкая диаграмма
+
+skinparam maxMessageSize 100
+
+title Использование автоматического переноса
+
+'__ АКТОРЫ __
+actor "Пользователь" as User
+participant "Система 1" as System_1
+participant "Система 2" as System_2
+participant "Система 3" as System_3
+participant "Система 4" as System_4
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+User -> System_1: Описание какого либо действия очень длинной строкой
+System_1 -> System_2: Описание какого либо действия очень длинной строкой
+System_2 -> System_3: Описание какого либо действия очень длинной строкой
+System_3 -> System_4: Описание какого либо действия очень длинной строкой
+
+@enduml

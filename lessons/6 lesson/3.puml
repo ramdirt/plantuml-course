@@ -1,0 +1,18 @@
+@startuml Широкая диаграмма
+
+title Ручной перенос строк
+
+'__ АКТОРЫ __
+actor "Пользователь" as User
+participant "Система 1" as System_1
+participant "Система 2" as System_2
+participant "Система 3" as System_3
+participant "Система 4" as System_4
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+User -> System_1: Описание \nкакого либо \nдействия очень \nдлинной строкой
+System_1 -> System_2: Описание \nкакого либо \nдействия очень \nдлинной строкой
+System_2 -> System_3: Описание \nкакого либо \nдействия очень \nдлинной строкой
+System_3 -> System_4: Описание \nкакого либо \nдействия очень \nдлинной строкой
+
+@enduml

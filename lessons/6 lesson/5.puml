@@ -1,0 +1,57 @@
+@startuml Широкая диаграмма
+
+title Подробное описание
+
+'__ АКТОРЫ __
+actor "Клиент" as Client
+participant "Фронтэнд" as Frontend
+participant "API Gateway" as API_Gateway
+box "Сервис клиентов"
+    participant "Сервис клиентов" as Service_Clients
+    database "БД" as DB_Clients
+end box
+queue "Кафка" as Kafka
+box "Сервис документов"
+    participant "Сервис Документов" as Service_Documents
+    database "БД" as DB_Documents
+end box
+participant
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+== Создание клиента ==
+Client -> Frontend : Регистрация
+Frontend -> API_Gateway : POST /users
+API_Gateway -> API_Gateway : Авторизация запроса
+API_Gateway -> Service_Clients: POST /users
+Service_Clients-> DB_Clients : INSERT users
+DB_Clients --> Service_Clients: Сохранено
+Service_Clients-> 
+
+== Генерация документов ==
+Service_Clients-> Kafka : PUSH EVENT DocumentsGenerate
+Service_Documents -> Kafka : PULL EVENT DocumentsGenerate
+Service_Documents -> Service_Documents : Генерация документов
+Service_Documents -> DB_Documents : INSERT documents
+DB_Documents -> Service_Documents : Сохранено
+Service_Documents -> Kafka : PUSH EVENT DocumentsGenerated
+Service_Clients -> Kafka : PULL EVENT DocumentsGenerated
+Service_Clients -> DB_Clients : UPDATE users
+DB_Clients --> Service_Clients : Сохранено
+
+== Получение документов ==
+opt Если клиент зарегестрирован
+    loop Каждые 3 секунды
+        Frontend -> API_Gateway : GET /users/{user_id}/documents
+        API_Gateway -> API_Gateway : Авторизация запроса
+        API_Gateway -> Service_Documents : GET /users/{user_id}/documents
+        alt Документы получены
+            Service_Documents --> Frontend : 200
+            Frontend --> Client : Документы для подписи
+        else Документов нет
+            Service_Documents --> Frontend : 404
+            Frontend --> Client : Ожидайте, документы генерируются
+        end
+    end
+end
+
+@enduml

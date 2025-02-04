@@ -1,0 +1,14 @@
+@startuml Широкая диаграмма
+
+title Подробное описание
+
+'__ АКТОРЫ __
+participant "Фронтэнд" as Frontend
+participant "Бэкэнд" as Backend
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+-> Frontend : Регистрация \nклиента
+Frontend -> Backend : POST /users
+Backend -> Backend : Сохранение \nв таблице users
+
+@enduml

@@ -10,6 +10,7 @@ participant "Платежный шлюз" as PaySystem
 participant "Биллинг" as Billing
 
 '__ НАСТРОЙКИ РЭНДЕРИНГА __
+skinparam maxMessageSize 200
 
 'Скрытие дорожек которые не связаны
 'Функция написана чтобы не выводить ошибку в файле настроек
