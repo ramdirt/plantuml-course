@@ -1,0 +1,23 @@
+@startuml Широкая диаграмма
+
+title Для интеграций с внешними компаниями
+
+'__ АКТОРЫ __
+participant External_Сompany as "Внешняя компания"
+
+box "Ваша компания"
+    participant API as "API"
+end box
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+== Создание заявки на кредит ==
+ref over External_Сompany, API : Проверка наличия клиента
+External_Сompany -> API : POST /users/{client_phone}/application
+alt Заяка создана
+    API --> External_Сompany : 200 с телом заявки
+else Клиент не существует
+    API --> External_Сompany : 404 без тела
+end
+
+
+@enduml
