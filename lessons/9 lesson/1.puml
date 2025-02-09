@@ -1,0 +1,45 @@
+@startuml Использование цветов
+
+title Использование цветов
+
+'__ АКТОРЫ __
+actor "Пользователь" as User
+participant "Система" as System
+
+'__ ПРОЦЕДУРЫ __
+/'
+    Процедура для описания HTTP запросов
+'/
+!procedure $request($method="[Не указан метод]", $uri="[Не указан URI]", $model="<font color=red>[Модель не указана]</font>")
+    $method $uri \nМодель: $model
+!endprocedure
+
+/'
+    Процедура для описания HTTP ответов с условием
+'/
+!procedure $response($code=200, $model="[Модель не указана]", $error_code="[Не указан бизнес-код ошибки]")
+    !if ($code == 400)
+        Код ответа: $code \nКод бизнес-ошибки: $error_code
+    !else
+        Код: $code \nМодель: $model
+    !endif
+!endprocedure
+
+
+
+'__ ВЗАИМОДЕЙСТВИЕ __
+User -> System : $request("GET", "/users", UserCreateIn )
+alt #TECHNOLOGY Успешное создание пользователя
+    System --> User : $response(200, UserCreateOut)
+else #IMPLEMENTATION Ошибка
+    System --> User : $response(400, "", 001)
+end
+
+alt Успех
+    System -[#TECHNOLOGY]-> User : Ответ
+else Ошибка
+    System -[#IMPLEMENTATION]-> User : Ответ
+end
+
+
+@enduml
