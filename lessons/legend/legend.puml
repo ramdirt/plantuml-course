@@ -1,0 +1,45 @@
+@startuml Создание легенды
+
+' Делаем основную легенду диаграммы белой
+skinparam legendBackgroundColor #FFFFFF
+skinparam legendBorderColor #FFFFFF
+
+
+' Легенда
+legend
+' Фигурными скобками обозначаем что легенда будет состоять из другой диаграммы
+{{
+
+' Указываем стили для элемента map, что все было белое
+<style>
+map {
+    BackGroundColor #FFFFFF
+    LineColor #FFFFFF
+    LineThickness 0.5
+    FontSize 11
+    FontStyle bold
+}
+</style>
+
+' Процедура которая рисует стрелку, используя диаграмму активности
+!procedure $render( $text)
+    {{\nleft to right direction\nlabel " " as A\nlabel " " as B\nA $text B\n}}
+!endprocedure 
+
+' Общая процедура для рисования
+!procedure $arrow($description, $text)
+    $description => $render($text)
+!endprocedure
+
+' Массив в котором лежат обозначения
+map " " as arrows {
+    $arrow("HTTP request", "-->")
+    $arrow("HTTP response", "<-[dotted]-")
+    $arrow("Event Kafka", "-[dotted]->")
+}
+
+
+}}
+endlegend
+
+@enduml

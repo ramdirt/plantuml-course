@@ -1,48 +1,47 @@
-@startuml Использование цветов
+@startuml Создание легенды
 
-title Использование цветов
+title Создание легенды
+
+
 
 '__ АКТОРЫ __
 actor "Пользователь" as User
 participant "Система" as System
 
-'__ ПРОЦЕДУРЫ __
-/'
-    Процедура для описания HTTP запросов
-'/
-!procedure $request($method="[Не указан метод]", $uri="[Не указан URI]", $model="<font color=red>[Модель не указана]</font>")
-    $method $uri \nМодель: $model
-!endprocedure
-
-/'
-    Процедура для описания HTTP ответов с условием
-'/
-!procedure $response($code=200, $model="[Модель не указана]", $error_code="[Не указан бизнес-код ошибки]")
-    !if ($code == 400)
-        Код ответа: $code \nКод бизнес-ошибки: $error_code
-    !else
-        Код: $code \nМодель: $model
-    !endif
-!endprocedure
-
-
-
 '__ ВЗАИМОДЕЙСТВИЕ __
-User -> System : $request("GET", "/users", UserCreateIn )
-alt #TECHNOLOGY Успешное создание пользователя
-    System --> User : $response(200, UserCreateOut)
+User -> System : HTTP запрос
+alt #TECHNOLOGY Успешный ответ
+    System --> User : HTTP ответ
 else #IMPLEMENTATION Ошибка
-    System --> User : $response(400, "", 001)
+    System --> User : HTTP ответ
 end
 
-alt Успех
-    System -[#TECHNOLOGY]-> User : Ответ
-else Ошибка
-    System -[#IMPLEMENTATION]-> User : Ответ
-end
+User --> System: Асинхронное взаимодействие
 
-legend right
-| --> | -> |
-endlegend
+
+' Легенда
+!include legend.puml
+
+
+
+'  legend
+'  <b>Обозначения цветов</b>
+'  <#FFFFFF,#FFFFFF>| <#TECHNOLOGY>   | Успешный исход |
+'  | <#IMPLEMENTATION>      | Ошибка выполнения |
+'  endlegend
+
+
+'  legend
+'  <b>Обозначения цветов</b>
+'  <#FFFFFF,#FFFFFF>| <#TECHNOLOGY>   | Успешный исход |
+'  | <#IMPLEMENTATION>      | Ошибка выполнения |
+'  endlegend
+
+' legend
+' <b>Это легенда</b>
+' | стобец 1 | столбе 2 |
+' | 1 | 2 |
+' | 3 | 4 |
+' endlegend
 
 @enduml
