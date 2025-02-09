@@ -35,9 +35,5 @@ else #IMPLEMENTATION Ошибка
     System --> User : $response(400, "", 001)
 end
 
-legend right
-| --> | -> |
-endlegend
-
 
 @enduml

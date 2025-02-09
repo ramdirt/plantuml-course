@@ -41,5 +41,8 @@ else Ошибка
     System -[#IMPLEMENTATION]-> User : Ответ
 end
 
+legend right
+| --> | -> |
+endlegend
 
 @enduml
