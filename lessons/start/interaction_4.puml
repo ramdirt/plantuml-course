@@ -1,0 +1,27 @@
+@startuml Взаимодействие
+
+title Синхронное и асинхронное взаимодействие
+
+<style>
+document {
+  Margin 50
+}
+</style>
+hide unlinked
+skinparam ParticipantPadding 50
+'__ АКТОРЫ __
+actor "Пользователь" as User
+participant "Система" as System
+
+||50||
+
+User -> System : Отправил анкету
+System -> System : Сохранение анкеты
+System --> User : Анкета сохранена
+
+
+
+||50||
+
+
+@enduml

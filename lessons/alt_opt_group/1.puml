@@ -1,6 +1,6 @@
-@startuml Оценка рисков
+@startuml Начало
 
-!include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
+!include ../../common/settings.puml
 
 
 Client -> Frontend : Выбрал предложение

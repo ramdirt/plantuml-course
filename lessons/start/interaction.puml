@@ -1,26 +1,9 @@
-@startuml Взаимодействие
+@startuml Основы
 
-title Синхронное и асинхронное взаимодействие
-
-<style>
-document {
-  Margin 50
-}
-</style>
-
-
-'__ АКТОРЫ __
 actor "Пользователь" as User
 participant "Система" as System
 
-||50||
 
-User -> System: Синхронное взаимодействие
-User --> System: Асинхронное взаимодействие
-
-||50||
-
-
-
+User -> System : Взаимодействие
 
 @enduml

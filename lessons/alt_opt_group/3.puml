@@ -1,15 +1,15 @@
-@startuml Оценка рисков
+@startuml Добавляем альтернативные сценарии
 
 title Оценка рисков
 
-!include https://raw.githubusercontent.com/ramdirt/plantuml-course/refs/heads/master/common/settings.puml
+!include ../../common/settings.puml
 
 == Оценка рисков ==
 
 Client -> Frontend : Выбрал предложение
 Frontend -> Backend : POST /application
 Backend -> Backend : Создание заявки
-alt #PHYSICAL Заявка создана
+alt Заявка создана
     Backend --> Frontend : 200
 else Ошибка сервера
     Backend --> Frontend : 500
@@ -19,7 +19,7 @@ Backend --> Scoring : EVENT scoringStart
 Scoring -> Scoring : Оценка рисков
 Scoring --> Backend : EVENT scoringFinish
 Backend -> Backend : Сохранение результата
-alt #PHYSICAL Если заявка создана
+alt Если заявка создана
     Frontend -> Backend : GET /application/{id}
     alt Данные получены
         Backend --> Frontend : 200

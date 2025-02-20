@@ -1,0 +1,15 @@
+@startuml Добавляем отступы
+
+C -> F : Выбрал предложение
+F -> B : POST /application
+B -> B : Создание заявки
+B --> F : 200
+B --> S : EVENT SStart
+S -> S : Оценка рисков
+S --> B : EVENT SFinish
+B -> B : Сохранение результата
+F -> B : GET /application/{id}
+return 200
+F -> C : Отображение результата
+
+@enduml

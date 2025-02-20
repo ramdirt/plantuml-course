@@ -1,10 +1,4 @@
-@startuml Добавляем заголовки
-
-title Оценка рисков
-
-!include ../../common/settings.puml
-
-== Оценка рисков == 
+@startuml Читабельные переменные
 
 Client -> Frontend : Выбрал предложение
 Frontend -> Backend : POST /application
@@ -17,6 +11,5 @@ Backend -> Backend : Сохранение результата
 Frontend -> Backend : GET /application/{id}
 return 200
 Frontend -> Client : Отображение результата
-
 
 @enduml

@@ -1,0 +1,10 @@
+@startuml
+
+CREATE : "Заявка создана"
+SCORING : "Скоринг клиента"
+
+[*] --> CREATE : POST /application
+CREATE --> SCORING : Заявка создана?
+SCORING --> [*] : Скоринг пройден?
+
+@enduml

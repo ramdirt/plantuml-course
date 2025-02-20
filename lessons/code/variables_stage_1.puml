@@ -1,0 +1,15 @@
+@startuml Пример с плохим оформлением
+
+C->F:Выбралпредложение
+F->B:POST /application
+B->B:Созданиезаявки
+B-->F:200
+B-->S:EVENT Start
+S->S:Оценка рисков
+S-->B:EVENT Finish
+B->B:Сохранение результата
+F->B:GET /application/{id}
+return 200
+F->C:Отображение результата
+
+@enduml

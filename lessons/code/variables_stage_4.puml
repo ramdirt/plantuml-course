@@ -1,0 +1,25 @@
+'хороший пример
+@startuml Хороший пример
+
+title Хороший пример
+
+participant Frontend
+participant Backend
+
+Frontend -> Backend: GET application/{id}
+Backend -> Frontend: 200 {stage: {Шаг заявки}}
+
+@enduml
+
+
+'плохой пример
+@startuml Плохой пример
+title Плохой пример
+participant Frontend
+participant Backend
+Frontend -> Backend: GET application/{id}
+Backend -> Frontend: 200 {stage: {Шаг заявки}}
+@enduml
+
+
+

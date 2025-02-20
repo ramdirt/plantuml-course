@@ -35,16 +35,6 @@ opt Если шаг заявки "SCORING"
     end
 end
 
-opt Если шаг заявки "CREATE" или "SCORING"
-    loop Каждую 1 секунду
-        Frontend -> Backend : GET /application/{id}
-        alt Данные получены
-            Backend --> Frontend : 200
-        else Ошибка сервера
-            Backend --> Frontend : 500
-        end
-        Frontend -> Client : Отображение результата
-    end
-end
+ref over Client, Frontend, Backend : Актуализация интерфейса пользователя на основе состояния заявки
 
 @enduml
